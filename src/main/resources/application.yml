@@ -1,0 +1,6 @@
+server:
+  port: 30000
+  connectionTimeout: 60000
+  jetty:
+    acceptors: 1
+    selectors: 10

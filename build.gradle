@@ -16,11 +16,8 @@ plugins {
     id 'java'
 }
 
-group 'com.sample.inventory'
+group 'inventory-management'
 version '1.0-SNAPSHOT'
-
-sourceCompatibility = 1.8
-
 
 configurations.all {
     exclude group: 'commons-logging'

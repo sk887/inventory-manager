@@ -25,6 +25,7 @@ hs_err_pid*
 
 .gradle/
 .idea/
+target/
 gradle/
 gradlew
 gradlew.bat
