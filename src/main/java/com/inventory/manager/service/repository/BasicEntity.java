@@ -5,15 +5,7 @@ import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -27,6 +19,10 @@ public abstract class BasicEntity implements Serializable {
     @Setter
     private Long id;
 
+
+    @Version
+    @Column(name = "version", nullable = false)
+    private Integer version;
 
     @Temporal(TemporalType.TIMESTAMP) //Hibernate could store date without hours, minutes and seconds
     @Column(name = "created_at", nullable = false)
