@@ -1,7 +1,10 @@
 package com.inventory.manager.service.service;
 
+import com.inventory.manager.service.datatypes.IdempotencyKey;
 import com.inventory.manager.service.datatypes.InwardInventoryRequest;
+import com.inventory.manager.service.datatypes.response.ClientResponse;
+import com.inventory.manager.service.repository.Inventory;
 
 public interface InventoryService {
-    void inwardInventory(InwardInventoryRequest request) throws Exception;
+    ClientResponse inwardInventory(InwardInventoryRequest request, IdempotencyKey idempotencyKey) throws Exception;
 }

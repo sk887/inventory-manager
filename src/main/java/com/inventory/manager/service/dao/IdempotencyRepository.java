@@ -7,4 +7,5 @@ public interface IdempotencyRepository extends CrudRepository<Idempotence, Long>
 
     Idempotence findByRequestIdAndRequestNameAndRequestedBy(String requestId, String requestName,
                                                             String requestedBy) throws Exception;
+
 }

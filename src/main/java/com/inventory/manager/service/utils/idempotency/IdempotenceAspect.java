@@ -3,6 +3,7 @@ package com.inventory.manager.service.utils.idempotency;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.inventory.manager.service.dao.IdempotencyRepository;
 import com.inventory.manager.service.datatypes.IdempotencyKey;
+import com.inventory.manager.service.datatypes.response.ClientResponse;
 import com.inventory.manager.service.repository.Idempotence;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -10,8 +11,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 
 @Aspect
 @Slf4j
@@ -53,7 +54,7 @@ public class IdempotenceAspect {
         if(previousResponse != null) {
             log.info("Request Id already processed: " + idempotencyKey.getRequestId() + " for method: "
                     + requestName + " for user " + idempotencyKey.getRequestedBy());
-            return previousResponse.getResponseBody();
+            return objectMapper.readValue(previousResponse.getResponseBody(), ClientResponse.class);
         }
 
         Object returnValue = proceedingJoinPoint.proceed();
@@ -62,7 +63,7 @@ public class IdempotenceAspect {
         request.setRequestId(idempotencyKey.getRequestId());
         request.setRequestedBy(idempotencyKey.getRequestedBy());
         request.setRequestName(requestName);
-        request.setResponseBody(returnValue);
+        request.setResponseBody(objectMapper.writeValueAsString(returnValue));
 
         idempotencyRepository.save(request);
 
