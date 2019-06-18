@@ -40,7 +40,7 @@ public class Idempotence {
     private String requestedBy;
 
     @Column(name = "response_body", columnDefinition = "TEXT")
-    private Object responseBody;
+    private String responseBody;
 
     @Version
     @Column(name = "version")
