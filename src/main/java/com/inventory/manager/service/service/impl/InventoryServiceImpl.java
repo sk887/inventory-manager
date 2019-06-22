@@ -30,4 +30,11 @@ public class InventoryServiceImpl implements InventoryService {
 
         return new ClientResponse(true, inventory);
     }
+
+    @Override
+    public ClientResponse getInventory(Long inventoryId) throws Exception {
+        Inventory inventory = inventoryDao.findInventory(inventoryId);
+
+        return new ClientResponse(true, inventory);
+    }
 }
