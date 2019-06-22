@@ -13,10 +13,11 @@ public class LogExecutionTimeAspect {
     private static final String LOG_MESSAGE_FORMAT = "%s.%s execution time %d ms";
 
     @Pointcut("execution(@com.inventory.manager.service.utils.logging.LogExecutionTime  * *(..))")
-    public void isAnnotated() {}
+    public void isAnnotated() {
+    }
 
     @Around("isAnnotated()")
-    public Object logExecutionTime(ProceedingJoinPoint proceedingJoinPoint) throws Throwable{
+    public Object logExecutionTime(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
