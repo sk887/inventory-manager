@@ -1,10 +1,13 @@
 package com.inventory.manager.service.configuration;
 
+import com.inventory.manager.service.enums.DbType;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -15,10 +18,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.inject.Inject;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
+@Slf4j
 @Configuration
-@PropertySource("classpath:database.properties")
+@PropertySource("classpath:application.yml")
 @EnableTransactionManagement
 public class DatabaseConfiguration {
 
@@ -36,7 +42,6 @@ public class DatabaseConfiguration {
 
     @Value("${spring.datasource.validationQuery}")
     String validationQuery;
-
 
     @Value("${spring.jpa.show-sql:false}")
     String jpaShowSql;
@@ -68,7 +73,21 @@ public class DatabaseConfiguration {
     }
 
 
-    public DataSource dataSource() {
+    public DataSource masterDataSource() {
+        HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setDriverClassName(driverClass);
+        hikariConfig.setAutoCommit(false);
+        hikariConfig.setPassword(password);
+        hikariConfig.setUsername(userName);
+        hikariConfig.setJdbcUrl(dbUrl);
+        hikariConfig.setConnectionTestQuery(validationQuery);
+        HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
+        return hikariDataSource;
+
+    }
+
+
+    public DataSource slaveDataSource() {
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setDriverClassName(driverClass);
         hikariConfig.setAutoCommit(false);
@@ -90,8 +109,8 @@ public class DatabaseConfiguration {
         jpaProperties.put("hibernate.current_session_context_class", sessionContext);
         jpaProperties.put("hibernate.id.new_generator_mappings", false);
         jpaProperties.put("hibernate.naming-strategy", namingConvention);
-        return jpaProperties;
 
+        return jpaProperties;
     }
 
     @Bean
@@ -99,7 +118,24 @@ public class DatabaseConfiguration {
     public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
         jpaTransactionManager.setEntityManagerFactory(emf);
+
         return jpaTransactionManager;
     }
 
+
+    @Bean
+    @Primary
+    public DataSource dataSource() {
+        log.debug("Configuring Datasource");
+        RoutingDataSource routingDataSource = new RoutingDataSource();
+
+        Map<Object, Object> targetDataSources = new HashMap<>();
+        targetDataSources.put(DbType.MASTER, masterDataSource());
+        targetDataSources.put(DbType.SLAVE, slaveDataSource());
+
+        routingDataSource.setTargetDataSources(targetDataSources);
+        routingDataSource.setDefaultTargetDataSource(masterDataSource());
+
+        return routingDataSource;
+    }
 }

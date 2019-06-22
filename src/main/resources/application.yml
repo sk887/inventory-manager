@@ -4,3 +4,24 @@ server:
   jetty:
     acceptors: 1
     selectors: 10
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/inventory_manager
+    username: root
+    password:
+    testWhileIdle: true
+    validationQuery: SELECT 1
+  slave-datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/inventory_manager
+    username: root
+    password:
+    testWhileIdle: true
+    validationQuery: SELECT 1
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+    hibernate.ddl-auto: update
+    properties.hibernate.current_session_context_class: org.springframework.orm.hibernate4.SpringSessionContext
+    hibernate.naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
