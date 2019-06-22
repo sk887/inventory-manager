@@ -7,4 +7,5 @@ import com.inventory.manager.service.repository.Inventory;
 
 public interface InventoryService {
     ClientResponse inwardInventory(InwardInventoryRequest request, IdempotencyKey idempotencyKey) throws Exception;
+    ClientResponse getInventory(Long inventoryId) throws Exception;
 }
