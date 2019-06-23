@@ -25,7 +25,7 @@ public class InventoryController {
     @PostMapping("/create")
     @Transactional
     @Timed
-    public ResponseEntity inwardEvnetory(
+    public ResponseEntity inwardInvnetory(
             @RequestHeader(value = "X_REQUEST_ID") String requestId,
             @RequestHeader(value = "X_REQUESTED_BY") String requestedBy,
             @RequestBody InwardInventoryRequest request) {
