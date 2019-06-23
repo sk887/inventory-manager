@@ -25,3 +25,7 @@ spring:
     hibernate.ddl-auto: update
     properties.hibernate.current_session_context_class: org.springframework.orm.hibernate4.SpringSessionContext
     hibernate.naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+
+quartz:
+  enabled: true
+  path: "src/main/resources/quartz.properties"
