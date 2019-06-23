@@ -23,4 +23,8 @@ public class InventoryDaoImpl extends AbstractDao<Inventory, Long> implements In
     public Inventory updateInventory(Inventory inventory) {
         return update(inventory);
     }
+
+    public Inventory findInventory(Long inventoryId) {
+        return findById(inventoryId);
+    }
 }
