@@ -8,7 +8,7 @@ import javax.persistence.LockModeType;
 import java.util.List;
 
 public interface CustomLockEntityDao extends CrudRepository<CustomLockEntity, Long>, CustomLockEntityDaoCustom {
-    CustomLockEntity findByEntityNameAndEntityId(CustomeLockEntityName entityName, String entityId, LockModeType lockMode);
+    CustomLockEntity findByEntityNameAndEntityId(CustomeLockEntityName entityName, String entityId);
 
-    List<CustomLockEntity> findByEntityNameAndEntityIdIn(CustomeLockEntityName entityName, List<String> entityId, LockModeType lockMode);
+    List<CustomLockEntity> findByEntityNameAndEntityIdIn(CustomeLockEntityName entityName, List<String> entityId);
 }
