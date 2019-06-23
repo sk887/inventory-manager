@@ -110,7 +110,6 @@ allprojects {
         }
 
         compile "org.hibernate:hibernate-jpamodelgen:5.0.12.Final"
-
         compile 'org.springframework.retry:spring-retry:1.1.2.RELEASE'
         compile "org.springframework.boot:spring-boot-starter-jetty:${spring_boot_version}"
         compile group: 'io.dropwizard.metrics', name: 'metrics-core', version: dropwizard_metrics_version
@@ -155,6 +154,8 @@ allprojects {
 
         //quartz dependencies
         compile "org.quartz-scheduler:quartz:$quartz_version"
+        compile "org.quartz-scheduler:quartz-jobs:$quartz_version"
+
 
         compile('com.github.oxo42:stateless4j:2.5.0') {
             exclude group: "org.slf4j", module: "slf4j-jdk14"
@@ -165,6 +166,7 @@ allprojects {
         testCompile("org.springframework.boot:spring-boot-starter-test:${spring_boot_version}") {
             exclude group: 'org.assertj'
         }
+
         testCompile "org.springframework.boot:spring-boot-starter-jetty:${spring_boot_version}"
         testCompile 'com.h2database:h2:1.4.194'
         testCompile 'org.assertj:assertj-core:3.8.0'
@@ -173,7 +175,7 @@ allprojects {
 }
 
 bootRun {
-//  addResources = false
+    addResources = false
     jvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1234"]
 }
 
