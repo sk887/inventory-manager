@@ -29,3 +29,6 @@ spring:
 quartz:
   enabled: true
   path: "src/main/resources/quartz.properties"
+
+
+health.rotation.config.file.path: "/var/lib/inventory-manager/public/rotation.txt"
