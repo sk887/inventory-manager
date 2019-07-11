@@ -2,6 +2,8 @@ package com.inventory.manager.service.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.inventory.manager.service.filter.TransactionFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 import javax.servlet.Filter;
+import javax.servlet.FilterRegistration;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
@@ -52,6 +55,14 @@ public class ApplicationConfiguration {
                 .propertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE)
                 .timeZone(TimeZone.getTimeZone("Asia/Calcutta"))
                 .build();
+    }
+
+    @Bean
+    public FilterRegistrationBean filterRegistrationBean() {
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+        registrationBean.setFilter(new TransactionFilter());
+
+        return registrationBean;
     }
 
 }
