@@ -27,6 +27,7 @@ public class Inventory extends BasicEntity {
     private Long count;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "state" , nullable = false)
+    @Column(name = "state", nullable = false)
     private InventoryState state;
+
 }
