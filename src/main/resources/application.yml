@@ -4,6 +4,16 @@ server:
   jetty:
     acceptors: 1
     selectors: 10
+  tomcat:
+    accesslog:
+      enabled: true
+      #directory: logs
+      #file-date-format: yyyy-MM-dd
+      #prefix: access_log
+      #suffix: .log
+      #pattern: common
+    #basedir: tomcat
+
 spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
@@ -33,6 +43,5 @@ quartz:
 logback:
   logPath: ./logs/inventory
   logLevel: INFO
-
 
 health.rotation.config.file.path: "/var/lib/inventory-manager/public/rotation.txt"
