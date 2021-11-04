@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         mavenCentral()
+        mavenLocal()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}")
@@ -8,12 +9,15 @@ buildscript {
         classpath("net.saliman:gradle-cobertura-plugin:2.3.0")
         classpath("org.hidetake:gradle-ssh-plugin:2.0.0")
         classpath('mysql:mysql-connector-java:5.1.39')
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3"
 
     }
 }
 
 plugins {
     id 'java'
+    id 'application'
+    id 'org.sonarqube' version '3.3'
 }
 
 group 'inventory-management'
@@ -44,7 +48,6 @@ allprojects {
         //maven { url 'http://dl.bintray.com/readytalk/maven' }
     }
 
-    task wrapper(type: Wrapper) { gradleVersion = '3.2.1' }
     ext['hibernate.version'] = '4.3.11.Final'
 
     bootRepackage {
