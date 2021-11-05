@@ -1,10 +1,12 @@
 package com.inventory.manager.service.controller;
 
+import com.codahale.metrics.annotation.Timed;
 import com.inventory.manager.service.datatypes.IdempotencyKey;
 import com.inventory.manager.service.datatypes.InwardInventoryRequest;
-import com.codahale.metrics.annotation.Timed;
 import com.inventory.manager.service.datatypes.response.ClientResponse;
 import com.inventory.manager.service.service.InventoryService;
+import com.inventory.manager.service.utils.authorization.Authorization;
+import com.inventory.manager.service.utils.context.SampleContextHolder;
 import com.inventory.manager.service.utils.readOnlyConnection.ReadOnlyConnection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,8 @@ public class InventoryController {
     @PostMapping("/create")
     @Transactional
     @Timed
-    public ResponseEntity inwardInvnetory(
+    @Authorization(value = "test")
+    public ResponseEntity inwardInventory(
             @RequestHeader(value = "X_REQUEST_ID") String requestId,
             @RequestHeader(value = "X_REQUESTED_BY") String requestedBy,
             @RequestBody InwardInventoryRequest request) {

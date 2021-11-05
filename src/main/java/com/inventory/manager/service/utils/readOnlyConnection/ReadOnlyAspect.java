@@ -42,7 +42,7 @@ public class ReadOnlyAspect implements Ordered {
         try {
             DbContextHolder.setDbType(DbType.SLAVE);
             Object result = pjp.proceed();
-            DbContextHolder.clearDbType();
+            //DbContextHolder.clearDbType();
             return result;
         } finally {
             // restore state

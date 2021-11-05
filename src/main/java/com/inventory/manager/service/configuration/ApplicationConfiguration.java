@@ -2,7 +2,11 @@ package com.inventory.manager.service.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.inventory.manager.service.filter.ContextFilter;
 import com.inventory.manager.service.filter.TransactionFilter;
+import com.inventory.manager.service.utils.authorization.Authorization;
+import com.inventory.manager.service.utils.authorization.AuthorizationFilter;
+import org.springframework.boot.actuate.autoconfigure.ShellProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +19,7 @@ import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
+import javax.ws.rs.core.Context;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
@@ -35,9 +40,15 @@ public class ApplicationConfiguration {
         return filter;
     }
 
+    @Bean
+    public Filter contextFilter() {
+        return new ContextFilter();
+    }
+
     @Primary
     @Bean
     public ObjectMapper objectMapper() {
+
         return Jackson2ObjectMapperBuilder.
                 json()
                 .dateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"))
@@ -45,6 +56,7 @@ public class ApplicationConfiguration {
                 .timeZone(TimeZone.getTimeZone("Asia/Calcutta"))
                 .build();
     }
+
 
     @Bean("date")
     public ObjectMapper objectMapperWithDate() {
@@ -61,7 +73,6 @@ public class ApplicationConfiguration {
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         registrationBean.setFilter(new TransactionFilter());
-
         return registrationBean;
     }
 

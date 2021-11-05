@@ -6,7 +6,6 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.UUID;
 
 public class TransactionFilter implements Filter {
@@ -33,7 +32,7 @@ public class TransactionFilter implements Filter {
 
     private String getTransactionId(HttpServletRequest request, HttpServletResponse response) {
         String transactionId = request.getHeader(TRANSACTION_ID) == null ?
-                createTxnId(response) :request.getHeader(TRANSACTION_ID);
+                createTxnId(response) : request.getHeader(TRANSACTION_ID);
         return transactionId;
     }
 
