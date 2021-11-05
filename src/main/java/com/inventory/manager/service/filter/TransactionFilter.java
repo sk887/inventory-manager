@@ -22,11 +22,8 @@ public class TransactionFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
-        try {
-            MDC.put("txnId", getTransactionId(httpServletRequest, httpServletResponse));
+        try (MDC.MDCCloseable closeable = MDC.putCloseable("txnId", getTransactionId(httpServletRequest, httpServletResponse))) {
             chain.doFilter(httpServletRequest, httpServletResponse);
-        } finally {
-            MDC.remove("txnId");
         }
     }
 
