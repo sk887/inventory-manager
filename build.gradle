@@ -42,10 +42,11 @@ allprojects {
 
     repositories {
         mavenCentral()
+        maven { url 'https://repo1.maven.org/maven2/' }
         maven { url "http://repo.spring.io/snapshot" }
         maven { url "http://repo.spring.io/milestone" }
         maven { url "https://repository.jboss.org/nexus/content/repositories/releases" }
-        //maven { url 'http://dl.bintray.com/readytalk/maven' }
+        maven { url 'http://dl.bintray.com/readytalk/maven' }
     }
 
     ext['hibernate.version'] = '4.3.11.Final'
@@ -164,6 +165,8 @@ allprojects {
             exclude group: "org.slf4j", module: "slf4j-jdk14"
         }
 
+        //compile 'javax.servlet:javax.servlet-api:3.1.0'
+        //compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.22'
         compile group: 'com.sun.jersey', name: 'jersey-bundle', version: '1.8'
 
         testCompile("org.springframework.boot:spring-boot-starter-test:${spring_boot_version}") {

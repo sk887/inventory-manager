@@ -13,6 +13,9 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.ws.rs.container.ResourceInfo;
+import javax.ws.rs.core.Context;
+
 
 @Aspect
 @Slf4j
